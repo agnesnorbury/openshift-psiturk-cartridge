@@ -9,12 +9,12 @@ bin_dir=$(cd "$1/out" && pwd)
 src_dir=$(cd "$1/src" && pwd)
 buildpack=$(dirname $(dirname $0))
 
-pcre_ver=${PCRE_VERSION:-8.33}
+pcre_ver=${PCRE_VERSION:-8.36}
 pcre_file=${PCRE_FILE:-pcre-$pcre_ver.tar.gz}
 pcre_url=${PCRE_URL:-http://sourceforge.net/projects/pcre/files/pcre/$pcre_ver/$pcre_file}
 
-nginx_ver=${NGINX_VERSION:-1.4}
-nginx_patch=4
+nginx_ver=${NGINX_VERSION:-1.6}
+nginx_patch=2
 nginx_file=${NGINX_FILE:-nginx-$nginx_ver.$nginx_patch.tar.gz}
 nginx_url=${NGINX_URL:-http://nginx.org/download/$nginx_file}
 
