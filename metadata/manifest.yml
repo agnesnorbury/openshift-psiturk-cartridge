@@ -9,7 +9,7 @@ Versions:
 License: The Python License, version 2.7
 License-Url: http://docs.python.org/3/license.html
 Vendor: python.org
-Cartridge-Version: 0.0.1
+Cartridge-Version: 0.0.2
 Cartridge-Vendor: gsterjov
 Categories:
 - service
