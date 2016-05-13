@@ -1,6 +1,6 @@
 server {
     listen  <%= ENV['OPENSHIFT_ADVANCED_PYTHON_IP'] %>:<%= ENV['OPENSHIFT_ADVANCED_PYTHON_PORT'] %>;
-    root    <%= ENV['OPENSHIFT_REPO_DIR'] %>public;
+    root    <%= ENV['OPENSHIFT_REPO_DIR'] %>static;
 
     server_name _;
     keepalive_timeout 5;

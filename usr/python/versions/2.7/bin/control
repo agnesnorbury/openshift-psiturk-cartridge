@@ -157,9 +157,8 @@ function build() {
     then
         ( cd $OPENSHIFT_REPO_DIR; python ${OPENSHIFT_REPO_DIR}/setup.py develop $OPENSHIFT_PYTHON_MIRROR )
     fi
-
-    # give them psiturk!
-    pip install git+git://github.com/NYUCCL/psiturk@master#egg=psiturk
+    
+    psiturk_all_the_things
 
     relative-virtenv
 }
@@ -167,6 +166,20 @@ function build() {
 function deploy() {
     relative-virtenv
     activate-virtenv
+}
+
+function psiturk_all_the_things() {
+    
+    # give them psiturk!
+    pip install git+git://github.com/NYUCCL/psiturk@master#egg=psiturk
+
+    pushd $OPENSHIFT_REPO_DIR
+    
+    psiturk-setup-example
+    mv psiturk-example/* .
+    rm -r psiturk-example 
+
+    popd
 }
 
 case "$1" in
