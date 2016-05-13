@@ -3,6 +3,7 @@ import multiprocessing
 
 cart_dir = os.environ["OPENSHIFT_ADVANCED_PYTHON_DIR"]
 tmp_dir = os.environ["OPENSHIFT_TMP_DIR"]
+repo_dir = os.environ["OPENSHIFT_ADVANCED_PYTHON_REPO_DIR"]
 
 
 if os.environ.has_key("OPENSHIFT_PYTHON_WORKERS"):
@@ -17,7 +18,7 @@ bind = "unix:{0}run/appserver.sock".format(cart_dir)
 pidfile = "{0}run/appserver.pid".format(cart_dir)
 
 accesslog = "{0}logs/appserver.access.log".format(cart_dir)
-errorlog = "{0}logs/appserver.error.log".format(cart_dir)
+errorlog = "{0}server.log".format(repo_dir) # because that's what the default is for psiturkers
 
 worker_tmp_dir = "{0}".format(tmp_dir)
 tmp_upload_dir = "{0}".format(tmp_dir)
