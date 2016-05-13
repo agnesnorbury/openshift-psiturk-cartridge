@@ -32,16 +32,18 @@ The templated `requirements.txt` contains an entry for the github @master versio
 this file, `psiturk` will be added to your OpenShift python virtual environment and you'll be able to start the `psiturk` shell the next time you log in.
 
 
+### Configuration
+
+All you need to do is make sure to have an `app.py` file in the root of your project dir. An example is included in the repo dir that is initialized when you create an app with this cartridge. `app.py` has to import the psiturk experiment, like this:
+
+    from psiturk.experiment import app as application
+
+The built-in gunicorn server will know what to do from there.
+
 #### Environment Variables
 
 <code>OPENSHIFT_PYTHON_WORKERS</code> - The number of workers to spawn for packages like gunicorn.
 Default: <code>number of CPUs * 2 + 1</code>
-
-
-### Static files
-
-Static files will be served from the <code>public/</code> directory. These files will be served directly by Nginx.
-
 
 ### Custom nginx.conf
 
