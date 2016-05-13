@@ -158,6 +158,9 @@ function build() {
         ( cd $OPENSHIFT_REPO_DIR; python ${OPENSHIFT_REPO_DIR}/setup.py develop $OPENSHIFT_PYTHON_MIRROR )
     fi
 
+    # give them psiturk!
+    pip install git+git://github.com/NYUCCL/psiturk@master#egg=psiturk
+
     relative-virtenv
 }
 
