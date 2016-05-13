@@ -1,62 +1,49 @@
-## OpenShift Advanced Python Cartridge
+## OpenShift Psiturk Cartridge
 
-Inspired by the [Advanced Ruby Cartridge](https://github.com/openshift-cartridges/advanced-ruby-cartridge) this cartridge attempts to add support for the various WSGI-compliant python servers to the OpenShift platform.
-It does this by combining a modified python cartridge with the [downloadable Nginx cartridge](https://github.com/gsterjov/openshift-nginx-cartridge) as a reverse proxy.
+This is a fork of the [OpenShift Advanced Python Cartridge](https://github.com/gsterjov/openshift-advanced-python-cartridge) with some minimal configuration changes that make it amenable for hosting a [psiturk](https://github.com/NYUCCL/psiTurk) experiment. 
 
+The advantages of using this cartridge over the setup described on psiturk's [readthedocs](http://psiturk.readthedocs.io/en/latest/openshift.html) are that:
 
-### Why?
+1. you get an Nginx front server which is much faster for serving your static content than is the standaline gunicorn server
+2. You can host your own ad
+3. The psiturk server starts up and runs automatically without you having to log in and start/stop it
 
-The official python cartridge uses Apache and mod_wsgi to serve your app which isn't asynchronous and presents a problem for websockets. An alternative is to provide an app.py file which allows you to avoid mod_wsgi and use something like gevent, but that elimintates the ability to serve static files through a fast webserver like Apache or Nginx.
+The main disadvantage is that you can't install it using the openshift web gui -- you'll need to install the `rhc` commandline tools to install it. Instructions on doing that [here](https://developers.openshift.com/managing-your-applications/client-tools.html).
 
+It doesn't actually run the psiturk custom gunicorn server, it uses its own gunicorn server. But that's okay. The biggest consequence of this is that your server logs won't be in the same place -- they'll instead be in the `~/advanced-python/logs` dir on OpenShift.
 
 ### Installation
 
 To install this cartridge use the cartridge reflector when creating an app
 
-	rhc create-app myapp http://cartreflect-claytondev.rhcloud.com/reflect?github=gsterjov/openshift-advanced-python-cartridge
+	rhc create-app myapp http://cartreflect-claytondev.rhcloud.com/reflect?github=deargle/openshift-advanced-python-cartridge-e OPENSHIFT_PYTHON_SERVER=gunicorn
 
 
 ### Usage
 
-Using the cartridge isn't very different to the official python cartridge. Instead of providing a WSGI <code>application()</code> function at <code>wsgi/application</code> you instead provide the <code>application()</code> function at <code>app.py</code>. This file will be used directly by all the available servers.
+You can still log in via `ssh` to the OpenShift server and start the `psiturk` shell to administrate the creation of HITs or whatever. Or you can run the `psiturk` shell from your own computer to do the administration, it doesn't make a difference as long as your AMT credentials are in place. Know though that if you start the psiturk server via `server on` that that gunicorn server won't be accessible on OpenShift because it doesn't bind to the correct port. Solution? Just don't use the `psiturk` gunicorn server! There's already one running that will server your requests. 
 
-By default **wsgiref** is used so a working environment can be provided immediately. This is easily changed by setting the <code>OPENSHIFT_PYTHON_SERVER</code> environment variable and then restarting or redeploying the app.
+The templated `requirements.txt` contains an entry for the github @master version of `psiturk`, so if you 
 
-	rhc env set OPENSHIFT_PYTHON_SERVER=gunicorn
-	rhc app restart
+- `git add requirements.txt` 
+- `git commit`
+- `git push` 
 
-Be aware, however, that restarting/redeploying after changing servers for the first time might take a fair amount of time. This is because the server packages get compiled and installed on an as needed basis. Gevent and Gunicorn (which is configured to use gevent as its workers), for example, needs to be compiled within the app as OpenShift doesn't provide it as a system level package.
-
-
-### Supported servers
-
- - wsgiref
- - gevent
- - gunicorn
+this file, `psiturk` will be added to your OpenShift python virtual environment and you'll be able to start the `psiturk` shell the next time you log in.
 
 
 ### Configuration
 
-There is little to no configuration required as most of the details lay in the interaction between Nginx and the WSGI server package. All that is required is to define the <code>application()</code> function in <code>app.py</code>.
-Any configuration for the server package will be exposed via environment variables.
+All you need to do is make sure to have an `app.py` file in the root of your project dir. An example is included in the repo dir that is initialized when you create an app with this cartridge. `app.py` has to import the psiturk experiment, like this:
+
+    from psiturk.experiment import app as application
+
+The built-in gunicorn server will know what to do from there.
 
 #### Environment Variables
 
 <code>OPENSHIFT_PYTHON_WORKERS</code> - The number of workers to spawn for packages like gunicorn.
 Default: <code>number of CPUs * 2 + 1</code>
-
-
-### Static files
-
-Static files will be served from the <code>public/</code> directory. These files will be served directly by Nginx.
-
-
-### Web Sockets
-
-Web socket support is enabled in Nginx, however it does little more than passing the requests through with the appropriate upgrade headers. More complex websocket environments will need to go for the customised <code>nginx.conf</code> option.
-
-In the future there might be a nicer way to support websockets as a completely separate server. For example, the application might be served out by gunicorn, but websocket services served out with twisted or tornado. These are purely thoughts at the moment however.
-
 
 ### Custom nginx.conf
 
