@@ -15,8 +15,7 @@ It doesn't actually run the psiturk custom gunicorn server, it uses its own guni
 
 To install this cartridge use the cartridge reflector when creating an app
 
-	rhc create-app myapp http://cartreflect-claytondev.rhcloud.com/reflect?github=deargle/openshift-psiturk-cartridge -e OPENSHIFT_PYTHON_SERVER=gunicorn
-
+	rhc create-app myapp http://cartreflect-claytondev.rhcloud.com/reflect?github=deargle/openshift-psiturk-cartridge
 
 ### Usage
 
