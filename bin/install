@@ -11,7 +11,9 @@ esac
 echo "$version" > env/OPENSHIFT_ADVANCED_PYTHON_VERSION
 echo "1.9" > env/NGINX_VERSION
 
-echo "gunicorn" > env/OPENSHIFT_PYTHON_SERVER
+if [ -z "${OPENSHIFT_PYTHON_SERVER-}" ]; then
+    echo "gunicorn" > env/OPENSHIFT_PYTHON_SERVER
+fi
 
 for dir in logs run; do
 	mkdir -p $dir
