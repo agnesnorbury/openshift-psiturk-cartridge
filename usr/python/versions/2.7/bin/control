@@ -12,12 +12,12 @@ fi
 
 
 function start_wsgiref() {
-    nohup python usr/python/versions/2.7/servers/wsgiref_server.py > "$OPENSHIFT_ADVANCED_PYTHON_DIR/logs/appserver.log" 2>&1 &
+    nohup python $OPENSHIFT_ADVANCED_PYTHON_DIR/usr/python/versions/2.7/servers/wsgiref_server.py > "$OPENSHIFT_ADVANCED_PYTHON_DIR/logs/appserver.log" 2>&1 &
     echo $! > $OPENSHIFT_ADVANCED_PYTHON_DIR/run/appserver.pid
 }
 
 function start_gevent() {
-    nohup python usr/python/versions/2.7/servers/gevent_server.py > "$OPENSHIFT_ADVANCED_PYTHON_DIR/logs/appserver.log" 2>&1 &
+    nohup python $OPENSHIFT_ADVANCED_PYTHON_DIR/usr/python/versions/2.7/servers/gevent_server.py > "$OPENSHIFT_ADVANCED_PYTHON_DIR/logs/appserver.log" 2>&1 &
     echo $! > $OPENSHIFT_ADVANCED_PYTHON_DIR/run/appserver.pid
 }
 
@@ -38,6 +38,8 @@ function start() {
     fi
 
     export PYTHONPATH=$PYTHONPATH:$OPENSHIFT_REPO_DIR
+    
+    pushd $OPENSHIFT_REPO_DIR
 
     case "$OPENSHIFT_PYTHON_SERVER" in
         wsgiref)
@@ -50,6 +52,8 @@ function start() {
             start_gunicorn
             ;;
     esac
+
+    popd
 }
 
 
