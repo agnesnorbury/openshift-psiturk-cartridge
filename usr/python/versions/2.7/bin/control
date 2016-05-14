@@ -39,7 +39,7 @@ function start() {
 
     # if psiturk isn't install, install it.
     if (( $(pip list | grep -c PsiTurk) == 0 )) ; then
-        pip install git+git://github.com/NYUCCL/psiturk@master#egg=psiturk
+        pip install -q git+git://github.com/NYUCCL/psiturk@master#egg=psiturk
     fi
 
     export PYTHONPATH=$PYTHONPATH:$OPENSHIFT_REPO_DIR
@@ -121,10 +121,10 @@ function tidy() {
 function build_server() {
     case "$OPENSHIFT_PYTHON_SERVER" in
         gevent)
-            pip install gevent
+            pip install -q gevent
             ;;
         gunicorn)
-            pip install gevent gunicorn
+            pip install -q gevent gunicorn
             ;;
     esac
 
