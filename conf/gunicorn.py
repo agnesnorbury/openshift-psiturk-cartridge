@@ -3,7 +3,7 @@ import multiprocessing
 
 cart_dir = os.environ["OPENSHIFT_ADVANCED_PYTHON_DIR"]
 tmp_dir = os.environ["OPENSHIFT_TMP_DIR"]
-repo_dir = os.environ["OPENSHIFT_ADVANCED_PYTHON_REPO_DIR"]
+repo_dir = os.environ["OPENSHIFT_REPO_DIR"]
 
 
 if os.environ.has_key("OPENSHIFT_PYTHON_WORKERS"):
