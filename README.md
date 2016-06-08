@@ -35,15 +35,15 @@ The built-in gunicorn server will know what to do from there.
 
 You can (and should) use something besides the default `sqlite` db to store your data. Consider using an Openshift-hosted realational DB. You can choose between `mysql` and `postresql`. Install them like this after you have installed the openshift-psiturk-cartridge (I've only tested that the `mysql` cartridge works):
 
-   rhc cartridge add mysql-5.5 -a <YourAppName>
+    rhc cartridge add mysql-5.5 -a <YourAppName>
 
 or
 
-   rhc cartridge add postgresql-9.2 -a <YourAppName>
+    rhc cartridge add postgresql-9.2 -a <YourAppName>
 
 The database will be hosted on an `rhc` privately-accessible IP address. You can connect your local db management tools such as MySQL Workbench by setting up port forwarding. The easiest way to set up the port forwarding is to use the convenient `rhc port-forward -a <MyApp>` command. Or, you can use `phpMyAdmin` by installing another addon cartridge:
 
-    rhc cartridge add phpmyadmin-3.4 -a <YourAppName>
+    rhc cartridge add phpmyadmin-4 -a <YourAppName>
 
 **Note:** If you want to use the `openshift`-hosted DB, until my PR gets merged into the main psiturk branch, you'll need to install my PR:
 
