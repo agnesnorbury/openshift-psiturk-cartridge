@@ -33,7 +33,7 @@ The built-in gunicorn server will know what to do from there.
 
 ### Using an Openshift-hosted DB
 
-You can (and should) use something besides the default `sqlite` db to store your data. Consider using an Openshift-hosted realational DB. You can choose between `mysql` and `postresql`. Install them like this after you have installed the openshift-psiturk-cartridge (I've only tested that the `mysql` cartridge works):
+You can (and should) use something besides the default `sqlite` db to store your data. Consider using an Openshift-hosted relational DB. You can choose between `mysql` and `postresql`. Install them like this after you have installed the openshift-psiturk-cartridge (I've only tested that the `mysql` cartridge works):
 
     rhc cartridge add mysql-5.5 -a <YourAppName>
 
