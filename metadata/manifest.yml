@@ -1,7 +1,7 @@
 Name: advanced-python
 Cartridge-Short-Name: ADVANCED_PYTHON
 Display-Name: Advanced Python 2.7
-Description: 'An advanced python cartridge utilising an Nginx reverse proxy and a choice of modern WSGI servers such as gevent or gunicorn'
+Description: 'An OpenShift cartridge catering to PsiTurk users. Sets up nginx and gunicorn out of the box. Built on top of the OpenShift Advanced Python Cartridge.'
 Version: '2.7'
 Versions:
 - '2.7'
@@ -10,7 +10,7 @@ License: The Python License, version 2.7
 License-Url: http://docs.python.org/3/license.html
 Vendor: python.org
 Cartridge-Version: 0.0.2
-Cartridge-Vendor: gsterjov
+Cartridge-Vendor: deargle
 Categories:
 - service
 - python
