@@ -39,7 +39,7 @@ function start() {
 
     # if psiturk isn't install, install it.
     if (( $(pip list | grep -c PsiTurk) == 0 )) ; then
-        pip install -q git+git://github.com/NYUCCL/psiturk@master#egg=psiturk
+        pip install -q git+git://github.com/NYUCCL/psiturk@master#egg=psiturk --no-cache-dir
     fi
 
     #export PYTHONPATH=$PYTHONPATH:$OPENSHIFT_REPO_DIR // messing up gunicorn's ability to find modules, but I'm not sure why yet.
@@ -121,10 +121,10 @@ function tidy() {
 function build_server() {
     case "$OPENSHIFT_PYTHON_SERVER" in
         gevent)
-            pip install -q gevent
+            pip install -q gevent --no-cache-dir
             ;;
         gunicorn)
-            pip install -q gevent gunicorn
+            pip install -q gevent gunicorn --no-cache-dir
             ;;
     esac
 
