@@ -42,7 +42,7 @@ function start() {
         pip install -q git+git://github.com/NYUCCL/psiturk@master#egg=psiturk
     fi
 
-    export PYTHONPATH=$PYTHONPATH:$OPENSHIFT_REPO_DIR
+    #export PYTHONPATH=$PYTHONPATH:$OPENSHIFT_REPO_DIR // messing up gunicorn's ability to find modules, but I'm not sure why yet.
     
     pushd $OPENSHIFT_REPO_DIR
 
