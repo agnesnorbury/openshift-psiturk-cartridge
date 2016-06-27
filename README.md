@@ -45,9 +45,8 @@ The database will be hosted on an `rhc` privately-accessible IP address. You can
 
     rhc cartridge add phpmyadmin-4 -a <YourAppName>
 
-**Note:** If you want to use the `openshift`-hosted DB, until my PR gets merged into the main psiturk branch, you'll need to install my PR:
+~~**Note:** If you want to use the `openshift`-hosted DB, until my PR gets merged into the main psiturk branch, you'll need to install my PR:~~ Merged 6/27/2016
 
-    pip install --upgrade git+https://github.com/deargle/psiTurk.git@openshift-mysql-db
 
 ### Environment Variables
 
