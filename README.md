@@ -53,3 +53,7 @@ The database will be hosted on an `rhc` privately-accessible IP address. You can
 
 <code>OPENSHIFT_PYTHON_WORKERS</code> - The number of workers to spawn for packages like gunicorn.
 Default: <code>number of CPUs * 2 + 1</code>
+
+### Gotcha's
+
+Recently (as of 6/27/2016), `pip install` started throwing errors on rhc. Appending `--no-cache-dir` to your command is a workaround for now.
