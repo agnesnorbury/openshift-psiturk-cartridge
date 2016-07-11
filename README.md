@@ -47,12 +47,88 @@ The database will be hosted on an `rhc` privately-accessible IP address. You can
 
 ~~**Note:** If you want to use the `openshift`-hosted DB, until my PR gets merged into the main psiturk branch, you'll need to install my PR:~~ Merged 6/27/2016
 
+### Example if you are using the psiturk ad server
+
+    rhc create-app <YourAppName> http://cartreflect-claytondev.rhcloud.com/reflect?github=deargle/openshift-psiturk-cartridge
+    # (wait a long time...)
+    # (At this point, the default stroop task should be up and running! Browse to your openshift url to confirm).
+    
+    rhc cartridge add mysql-5.5 -a <YourAppName>
+    
+    rhc ssh -a <YourAppName>
+    cd app-root/repo
+    psiturk # this creates the .psiturkconfig file for you, if you're not brave enough to make it on your own
+    exit
+    cd ../data
+    <put your credentials into .psiturkconfig>
+    
+    # restart the server...
+    cd
+    cd advanced-python
+    ./bin/control restart
+    
+    # create your hit... this must be done from within your rhc ssh session
+    cd
+    cd app-root/repo
+    psiturk
+    hit create <...>
+    
+    # you can now exit the psiturk server, and things will still run...
+    exit
+    
+    <push your code>
+    
+### Example if you are NOT using the psiturk ad server
+
+    rhc create-app <YourAppName> http://cartreflect-claytondev.rhcloud.com/reflect?github=deargle/openshift-psiturk-cartridge
+    # (wait a long time...)
+    # (At this point, the default stroop task should be up and running! Browse to your openshift url to confirm).
+    
+    rhc cartridge add mysql-5.5 -a <YourAppName>	
+    
+    # edit your project's config.txt thusly:
+    use_psiturk_ad_server = false
+    ad_location = https://<your-url>.rhcloud.com/ad 
+    
+    # <... push your project code ...>
+    
+    # from any computer at all, create a hit
+    psiturk
+    hit create <...>
+    exit
+    
+### Example of pushing your code up to the openshift repo
+
+    rhc app show -a <yourappname> # get your git url from here
+    git remote add openshift <your openshift git url>
+    git push openshift master # this will trigger a new deployment, which reboots the server
+    
+    
+### FAQ
+
+#### Do I have to ssh into the rhc gear and turn on the psiturk server via `psiturk; server on`?
+
+Nope! When the cartridge starts up, it starts its own gunicorn server which loads the files in your app-root/repo dir. This self-loaded server is pointed to by nginx. If you *do* log in and do `psiturk; server on`, that server won't be referenced at all.
+
+
+### Upgrading your OpenShift account so that your gear never idles
+
+I highly recommend that you upgrade your OpenShift account to one of the premium versions. If you upgrade, your gear will never idle (normally they idle after 24 hours of inactivity). Upgrading involves giving redhat your credit card info, but you still won't be charged anything unless you change some default settings, so don't worry.
+
+### Gotcha's
+
+* Recently (as of 6/27/2016), `pip install` started throwing cache-related errors on rhc. If you need to use it, appending `--no-cache-dir` to your command is a workaround for now.
+* If you are using the psiturk ad server, you will need to make sure the gunicorn server restarts after you have added your psiTurk credentials to .psiturkconfig (see [here](http://psiturk.readthedocs.io/en/latest/openshift.html#id1) for where to add those credentials.) You can restart the cartridge by either:
+    1. pushing code to your openshift git repo (this triggers a deployment, which involves restarting the cartridge)
+    2. `ssh`ing into the server, then run:
+
+```        
+cd
+cd advanced-python
+./bin/control restart
+```
 
 ### Environment Variables
 
 <code>OPENSHIFT_PYTHON_WORKERS</code> - The number of workers to spawn for packages like gunicorn.
 Default: <code>number of CPUs * 2 + 1</code>
-
-### Gotcha's
-
-Recently (as of 6/27/2016), `pip install` started throwing errors on rhc. Appending `--no-cache-dir` to your command is a workaround for now.
