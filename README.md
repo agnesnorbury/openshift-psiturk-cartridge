@@ -106,7 +106,7 @@ The database will be hosted on an `rhc` privately-accessible IP address. You can
     
 ### FAQ
 
-#### Do I have to ssh into the rhc gear and turn on the psiturk server via `psiturk; server on`?
+* Do I have to ssh into the rhc gear and turn on the psiturk server via `psiturk; server on`?
 
 Nope! When the cartridge starts up, it starts its own gunicorn server which loads the files in your app-root/repo dir. This self-loaded server is pointed to by nginx. If you *do* log in and do `psiturk; server on`, that server won't be referenced at all.
 
